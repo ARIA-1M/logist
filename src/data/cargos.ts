@@ -1,13 +1,22 @@
 import type { Cargo } from "../types/game";
 
-import img from '../assets/hero.png';
+//Импорт картинок груза
+import book from '../assets/cargo/book.png';
+import engine from '../assets/cargo/engine.png';
+import gloves from '../assets/cargo/gloves.png';
+import medicines from '../assets/cargo/medicines.png';
+import milky from '../assets/cargo/milky.png';
+import screen from '../assets/cargo/screen.png';
+import service from '../assets/cargo/service.png';
+import washing_machine from '../assets/cargo/washing_machine.png';
+
 
 //Создание груза для распределения 
 export const cargos: Cargo[] = [
     {
         id: "book",
         name: "Книга",
-        icon: img,
+        icon: book,
         correct:{
             type:"light",
             package:"courier",
@@ -17,7 +26,7 @@ export const cargos: Cargo[] = [
     {
         id: "glass",
         name: "Сервиз",
-        icon: img,
+        icon: service,
         correct:{
             type:"fragile",
             package:"box",
@@ -27,7 +36,7 @@ export const cargos: Cargo[] = [
     {
         id: "electronics",
         name: "Монитор",
-        icon: img,
+        icon: screen,
         correct:{
             type:"fragile",
             package:"box",
@@ -37,7 +46,7 @@ export const cargos: Cargo[] = [
     {
         id: "engine",
         name: "Двигатель",
-        icon: img,
+        icon: engine,
         correct:{
             type:"heavy",
             package:"wood",
@@ -47,7 +56,7 @@ export const cargos: Cargo[] = [
     {
         id: "milk",
         name: "Молочные продукты",
-        icon: img,
+        icon: milky,
         correct:{
             type:"temperature",
             package:"thermo",
@@ -57,7 +66,7 @@ export const cargos: Cargo[] = [
     {
         id: "medicine",
         name: "Лекарства",
-        icon: img,
+        icon: medicines,
         correct:{
             type:"temperature",
             package:"thermo",
@@ -67,7 +76,7 @@ export const cargos: Cargo[] = [
     {
         id: "washingmachine",
         name: "Стиральная машинка",
-        icon: img,
+        icon: washing_machine,
         correct:{
             type:"heavy",
             package:"wood",
@@ -77,7 +86,7 @@ export const cargos: Cargo[] = [
     {
         id: "gloves",
         name: "Перчатки",
-        icon: img,
+        icon: gloves,
         correct:{
             type:"light",
             package:"courier",
