@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
 
 import { BackButton } from "./components/UI/BackButton";
 import { HelpButton } from "./components/UI/HelpButton";
@@ -54,7 +54,7 @@ function App() {
   }
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndProvider backend={TouchBackend}>
       <div className="root">
         <LeftPanel />
 

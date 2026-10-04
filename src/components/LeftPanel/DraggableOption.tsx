@@ -43,6 +43,7 @@ export const DraggableOption: FC<Props> = ({ option }) => {
         border: "1px solid #6a4fff",
       }}
     >
+      
       <img
         src={option.icon}
         alt={option.label}
