@@ -31,11 +31,11 @@ export const Notification: FC<NotificationProps> = ({
         width: "min(560px, 90vw)",
         padding: "20px 28px",
         borderRadius: 4,
-        border: isError ? "1px solid #ff5c7a" : "1px solid #6a4fff",
+        border: isError ? "1px solid #ff5c7a" : "1px solid #4fff6f",
         background: isError
           ? "linear-gradient(135deg, #2a0a1a 0%, #1a0510 100%)"
-          : "linear-gradient(135deg, #0d0530 0%, #05010f 100%)",
-        color: isError ? "#ffb8c8" : "#c9b8ff",
+          : "linear-gradient(135deg, #053012 0%, #010f04 100%)",
+        color: isError ? "#ffb8c8" : "#c3ffb8",
         fontFamily: "inherit",
         fontSize: 18,
         fontWeight: 700,
@@ -45,7 +45,7 @@ export const Notification: FC<NotificationProps> = ({
         textAlign: "center",
         boxShadow: isError
           ? "0 0 24px rgba(255, 92, 122, 0.7), inset 0 0 10px rgba(255, 92, 122, 0.2)"
-          : "0 0 24px rgba(106, 79, 255, 0.7), inset 0 0 10px rgba(106, 79, 255, 0.25)",
+          : "0 0 24px rgba(79, 255, 111, 0.7), inset 0 0 10px rgba(79, 255, 117, 0.25)",
         backdropFilter: "blur(6px)",
         WebkitBackdropFilter: "blur(6px)",
       }}

@@ -5,57 +5,97 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { BackButton } from "./components/UI/BackButton";
 import { HelpButton } from "./components/UI/HelpButton";
 import { HelpModal } from "./components/UI/HelpModal";
+import { Notification } from "./components/UI/Notification";
+import { Modal } from "./components/UI/Modal";
 import { CargoView } from "./components/CargoView/CargoView";
 import { LeftPanel } from "./components/LeftPanel/LeftPanel";
 import { CustomDragLayer } from "./components/LeftPanel/CustomDragLayer";
 import { Waybill } from "./components/Waybill/Waybill";
-import { cargos } from "./data/cargos";
-import {
-  cargoTypeOptions,
-  packageOptions,
-  fillerOptions,
-} from "./data/options";
-import type { Option } from "./types/game";
+import { useGameState } from "./hooks/useGameState";
 
 function App() {
+  const {
+    state,
+    currentCargo,
+    setType,
+    setPackage,
+    setFiller,
+    submitCargo,
+    resetGame,
+  } = useGameState();
+
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: "success" | "error";
+  } | null>(null);
 
-  // Временное состояние выбора
-  const [typeValue, setTypeValue] = useState<Option | null>(null);
-  const [packageValue, setPackageValue] = useState<Option | null>(null);
-  const [fillerValue, setFillerValue] = useState<Option | null>(null);
+  function handleSubmit() {
+    if (
+      !state.selection.type ||
+      !state.selection.package ||
+      !state.selection.filler
+    ) {
+      setNotification({
+        message: "Заполните все пункты накладной",
+        type: "error",
+      });
+      return;
+    }
 
-  const currentCargo = cargos[0];
+    const result = submitCargo();
 
-  // Временная функция поиска опции по id
-  const findOption = (options: Option[], id: string) =>
-    options.find((o) => o.id === id) ?? null;
+    setNotification({
+      message: result.success
+        ? "Груз успешно отправлен"
+        : "В результате транспортировки груз был повреждён!",
+      type: result.success ? "success" : "error",
+    });
+  }
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="root">
         <LeftPanel />
 
-        <CargoView cargo={currentCargo} />
+        {currentCargo && <CargoView cargo={currentCargo} />}
 
-        <Waybill
-          cargo={currentCargo}
-          typeValue={typeValue}
-          packageValue={packageValue}
-          fillerValue={fillerValue}
-          onTypeDrop={(id) => setTypeValue(findOption(cargoTypeOptions, id))}
-          onPackageDrop={(id) => setPackageValue(findOption(packageOptions, id))}
-          onFillerDrop={(id) => setFillerValue(findOption(fillerOptions, id))}
-          onSubmit={() => alert("Отправка!")}
-          successCount={0}
-          total={cargos.length}
-          wrong={{ type: false, package: false, filler: false }}
-        />
+        {currentCargo && (
+          <Waybill
+            cargo={currentCargo}
+            typeValue={state.selection.type}
+            packageValue={state.selection.package}
+            fillerValue={state.selection.filler}
+            onTypeDrop={setType}
+            onPackageDrop={setPackage}
+            onFillerDrop={setFiller}
+            onSubmit={handleSubmit}
+            successCount={state.successCount}
+            total={state.cargos.length}
+            wrong={state.wrong}
+          />
+        )}
 
         <BackButton onClick={() => {}} />
         <HelpButton onClick={() => setIsHelpOpen(true)} />
 
         {isHelpOpen && <HelpModal onClose={() => setIsHelpOpen(false)} />}
+
+        {notification && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(null)}
+          />
+        )}
+
+        {state.isFinished && (
+          <Modal
+            successCount={state.successCount}
+            total={state.cargos.length}
+            onRestart={resetGame}
+          />
+        )}
       </div>
 
       <CustomDragLayer />
