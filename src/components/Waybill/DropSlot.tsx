@@ -35,20 +35,25 @@ export const WaybillDropSlot: FC<Props> = ({
   return dropRef(
     <div
       style={{
-        width: 84,
-        height: 84,
-        background: "#e0e0e0",
-        borderRadius: 8,
+         width: 96,
+        height: 96,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: 4,
+        border: "1px solid #6a4fff",
+        background: "linear-gradient(135deg, #0d0530 0%, #05010f 100%)",
+        boxShadow:
+          "0 0 12px rgba(106, 79, 255, 0.5), inset 0 0 6px rgba(106, 79, 255, 0.2)",
+        transition: "all 0.2s ease",
       }}
     >
       {value ? (
         <img
           src={value.icon}
           alt={value.label}
-          style={{ width: 68, height: 68 }}
+          style={{ width: 68, height: 68, objectFit: "contain",
+            filter: "drop-shadow(0 0 8px rgba(140, 100, 255, 0.6))"}}
           draggable={false}
         />
       ) : null}

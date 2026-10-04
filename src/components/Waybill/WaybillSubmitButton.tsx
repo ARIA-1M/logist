@@ -8,8 +8,8 @@ interface Props {
 }
 
 export const WaybillSubmitButton: FC<Props> = ({ onSubmit, enabled }) => {
-  const baseBg = enabled ? "#ffcb5c" : "#d9d9d9";
-  const hoverBg = enabled ? "#f2bf54" : "#cfcfcf";
+  const baseBg = enabled ? "#4fc3f7" : "#2a3a4a";
+  const hoverBg = enabled ? "#29b6f6" : "#2a3a4a";
 
   return (
     <button
@@ -17,21 +17,24 @@ export const WaybillSubmitButton: FC<Props> = ({ onSubmit, enabled }) => {
       style={{
         width: "100%",
         height: 56,
-        borderRadius: 999,
-        border: "none",
-        background: baseBg,
-        color: "#000",
-        fontSize: 22,
-        fontWeight: 500,
-        cursor: "pointer",
-
+        borderRadius: 4,
+        border: "1px solid #6a4fff",
+        background: "linear-gradient(135deg, #05010f 0%, #0d0530 50%, #1a0a4d 100%)",
+        color: enabled ? "#c9b8ff" : "#4a3a7a",
+        fontFamily: "inherit",
+        fontSize: 14,
+        fontWeight: 700,
+        letterSpacing: 1.5,
+        textTransform: "uppercase",
+        cursor: enabled ? "pointer" : "not-allowed",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-
-        transition: "background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease",
-        boxShadow: enabled ? "0 8px 20px rgba(0,0,0,0.25)" : "none",
-        opacity: 1,
+        transition: "all 0.2s ease",
+        boxShadow: enabled
+          ? "0 0 14px rgba(106, 79, 255, 0.55), inset 0 0 6px rgba(106, 79, 255, 0.25)"
+          : "inset 0 0 6px rgba(106, 79, 255, 0.1)",
+        opacity: enabled ? 1 : 0.5,
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = hoverBg;
