@@ -3,7 +3,7 @@ import type { Option } from "../types/game";
 //Импорт картинок для определения типа груза
 import fragile from '../assets/cargoType/fragile.jpg';
 import heavy from '../assets/cargoType/heavy.jpg';
-import light from '../assets/cargoType/light.png';
+import light from '../assets/cargoType/light.jpg';
 import temperature from '../assets/cargoType/temperature.jpg';
 //Импорт картинок для определения упаковки
 import bag from '../assets/package/bag.png';
@@ -20,7 +20,7 @@ import styrofoam from '../assets/filler/styrofoam.png';
 export const cargoTypeOptions: Option[] = [
     {
         id:"light",
-        label:"Легкий",
+        label:"Сухой",
         icon:light,
         category:"cargoType"
     },

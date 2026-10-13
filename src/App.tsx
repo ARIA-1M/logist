@@ -2,7 +2,6 @@ import { useState } from "react";
 import { DndProvider } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
 
-import { BackButton } from "./components/UI/BackButton";
 import { HelpButton } from "./components/UI/HelpButton";
 import { HelpModal } from "./components/UI/HelpModal";
 import { Notification } from "./components/UI/Notification";
@@ -21,6 +20,8 @@ function App() {
     setPackage,
     setFiller,
     submitCargo,
+    nextCargo,
+    markMistake,
     resetGame,
   } = useGameState();
 
@@ -45,16 +46,31 @@ function App() {
 
     const result = submitCargo();
 
+    if (!result.success) {
+      markMistake();
+    }
+
     setNotification({
       message: result.success
         ? "Груз успешно отправлен"
         : "В результате транспортировки груз был повреждён!",
       type: result.success ? "success" : "error",
     });
+
+    // Через 1.2 секунды переходим к следующему грузу
+    setTimeout(() => {
+      nextCargo();
+    }, 1200);
   }
 
   return (
-    <DndProvider backend={TouchBackend}>
+    <DndProvider
+      backend={TouchBackend}
+      options={{
+        enableMouseEvents: true,
+        enableTouchEvents: true,
+      }}
+    >
       <div className="root">
         <LeftPanel />
 
@@ -72,11 +88,10 @@ function App() {
             onSubmit={handleSubmit}
             successCount={state.successCount}
             total={state.cargos.length}
-            wrong={state.wrong}
+            status={state.status}
           />
         )}
 
-        <BackButton onClick={() => {}} />
         <HelpButton onClick={() => setIsHelpOpen(true)} />
 
         {isHelpOpen && <HelpModal onClose={() => setIsHelpOpen(false)} />}

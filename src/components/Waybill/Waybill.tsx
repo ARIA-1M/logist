@@ -3,11 +3,12 @@ import React from "react";
 import { WaybillDropSlot } from "./DropSlot";
 import type { Option, Cargo } from "../../types/game";
 import { WaybillSubmitButton } from "./WaybillSubmitButton";
+import type { FieldStatus } from "../../hooks/useGameState";
 
-type WrongMap = {
-  type: boolean;
-  package: boolean;
-  filler: boolean;
+type StatusMap = {
+  type: FieldStatus;
+  package: FieldStatus;
+  filler: FieldStatus;
 };
 
 interface Props {
@@ -21,7 +22,7 @@ interface Props {
   onSubmit: () => void;
   successCount: number;
   total: number;
-  wrong: WrongMap;
+  status: StatusMap;
 }
 
 export const Waybill = ({
@@ -35,7 +36,7 @@ export const Waybill = ({
   onSubmit,
   successCount,
   total,
-  wrong,
+  status,
 }: Props) => {
   const isReady = !!typeValue && !!packageValue && !!fillerValue;
 
@@ -127,54 +128,10 @@ export const Waybill = ({
           />
 
           {/* Заклёпки по углам */}
-          <div
-            style={{
-              position: "absolute",
-              top: 8,
-              left: 8,
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#a07fff",
-              boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#a07fff",
-              boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: 8,
-              left: 8,
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#a07fff",
-              boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: 8,
-              right: 8,
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: "#a07fff",
-              boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)",
-            }}
-          />
+          <div style={{ position: "absolute", top: 8, left: 8, width: 6, height: 6, borderRadius: "50%", background: "#a07fff", boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)" }} />
+          <div style={{ position: "absolute", top: 8, right: 8, width: 6, height: 6, borderRadius: "50%", background: "#a07fff", boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)" }} />
+          <div style={{ position: "absolute", bottom: 8, left: 8, width: 6, height: 6, borderRadius: "50%", background: "#a07fff", boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)" }} />
+          <div style={{ position: "absolute", bottom: 8, right: 8, width: 6, height: 6, borderRadius: "50%", background: "#a07fff", boxShadow: "0 0 8px rgba(160, 127, 255, 0.9)" }} />
 
           {/* Заголовок */}
           <div
@@ -207,7 +164,7 @@ export const Waybill = ({
             }}
           >
             <WaybillRow label="Груз">
-              <IconSquare>
+              <IconSquare status="neutral">
                 <img
                   src={cargo.icon}
                   alt={cargo.name}
@@ -222,7 +179,7 @@ export const Waybill = ({
             </WaybillRow>
 
             <WaybillRow label="Тип груза">
-              <IconSquare error={wrong.type}>
+              <IconSquare status={status.type}>
                 <WaybillDropSlot
                   acceptedCategory="cargoType"
                   value={typeValue}
@@ -232,7 +189,7 @@ export const Waybill = ({
             </WaybillRow>
 
             <WaybillRow label="Упаковка">
-              <IconSquare error={wrong.package}>
+              <IconSquare status={status.package}>
                 <WaybillDropSlot
                   acceptedCategory="package"
                   value={packageValue}
@@ -242,7 +199,7 @@ export const Waybill = ({
             </WaybillRow>
 
             <WaybillRow label="Наполнитель">
-              <IconSquare error={wrong.filler}>
+              <IconSquare status={status.filler}>
                 <WaybillDropSlot
                   acceptedCategory="filler"
                   value={fillerValue}
@@ -339,30 +296,49 @@ const Label = ({ label }: { label: string }) => (
 
 const IconSquare = ({
   children,
-  error,
+  status = "neutral",
 }: {
   children: React.ReactNode;
-  error?: boolean;
-}) => (
-  <div
-    style={{
-      width: 96,
-      height: 96,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderRadius: 4,
-      border: error ? "1px solid #ff5c7a" : "1px solid #6a4fff",
-      background: error
-        ? "linear-gradient(135deg, #2a0a1a 0%, #1a0510 100%)"
-        : "linear-gradient(135deg, #0d0530 0%, #05010f 100%)",
-      boxShadow: error
-        ? "0 0 20px rgba(255, 92, 122, 0.7), inset 0 0 10px rgba(255, 92, 122, 0.2)"
-        : "0 0 12px rgba(106, 79, 255, 0.5), inset 0 0 6px rgba(106, 79, 255, 0.2)",
-      transition: "all 0.2s ease",
-      boxSizing: "border-box",
-    }}
-  >
-    {children}
-  </div>
-);
+  status?: FieldStatus;
+}) => {
+  const isCorrect = status === "correct";
+  const isWrong = status === "wrong";
+
+  const borderColor = isCorrect
+    ? "#19dd61"
+    : isWrong
+      ? "#ff5c7a"
+      : "#6a4fff";
+
+  const bg = isCorrect
+    ? "linear-gradient(135deg, #0a2a1a 0%, #051510 100%)"
+    : isWrong
+      ? "linear-gradient(135deg, #2a0a1a 0%, #1a0510 100%)"
+      : "linear-gradient(135deg, #0d0530 0%, #05010f 100%)";
+
+  const glow = isCorrect
+    ? "0 0 20px rgba(39, 221, 106, 0.7), inset 0 0 10px rgba(74, 222, 128, 0.2)"
+    : isWrong
+      ? "0 0 20px rgba(255, 92, 122, 0.7), inset 0 0 10px rgba(255, 92, 122, 0.2)"
+      : "0 0 12px rgba(106, 79, 255, 0.5), inset 0 0 6px rgba(106, 79, 255, 0.2)";
+
+  return (
+    <div
+      style={{
+        width: 96,
+        height: 96,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 4,
+        border: `1px solid ${borderColor}`,
+        background: bg,
+        boxShadow: glow,
+        transition: "all 0.2s ease",
+        boxSizing: "border-box",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
