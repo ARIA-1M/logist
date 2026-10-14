@@ -84,7 +84,7 @@ export const fillerOptions: Option[] =[
     },
     {
         id:"bubble",
-        label:"Пузырчитая пленка",
+        label:"Пузырчатая пленка",
         icon:bubble_wrap,
         category:"filler",
     },
