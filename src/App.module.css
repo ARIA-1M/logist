@@ -1,0 +1,30 @@
+/* Стиль текста */
+@font-face {
+  font-family: 'Cruinn';
+  src: url('./assets/fonts/ofont.ru_Cruinn.ttf') format('truetype');
+}
+
+.root {
+  position: relative;
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  gap: 24px;
+  overflow: hidden;
+}
+
+.root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('./assets/img/background.png') center / cover no-repeat;
+  filter: blur(4px) brightness(0.6);
+  z-index: -1;
+  transform: scale(1.05);
+}
+
+.root > * {
+  position: relative;
+  z-index: 1;
+  justify-content: center;
+}

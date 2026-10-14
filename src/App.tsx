@@ -12,6 +12,8 @@ import { CustomDragLayer } from "./components/LeftPanel/CustomDragLayer";
 import { Waybill } from "./components/Waybill/Waybill";
 import { useGameState } from "./hooks/useGameState";
 
+import styles from "./App.module.css";
+
 function App() {
   const {
     state,
@@ -57,7 +59,6 @@ function App() {
       type: result.success ? "success" : "error",
     });
 
-    // Через 1.2 секунды переходим к следующему грузу
     setTimeout(() => {
       nextCargo();
     }, 1200);
@@ -71,7 +72,7 @@ function App() {
         enableTouchEvents: true,
       }}
     >
-      <div className="root">
+      <div className={styles.root}>
         <LeftPanel />
 
         {currentCargo && <CargoView cargo={currentCargo} />}
