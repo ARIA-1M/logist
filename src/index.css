@@ -13,25 +13,23 @@
    font-family: 'Cruinn';
 }
 
-/* Настроки главного экрана*/
 .root {
   position: relative;
   min-height: 100vh;
   padding: 24px;
   display: flex;
   gap: 24px;
-  background: url('./assets/img/background.png')
-    center / cover no-repeat;
+  overflow: hidden;
 }
 
-/* Затемнение элемента*/
 .root::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 0;
-  pointer-events: none;
+  background: url('./assets/img/background.png') center / cover no-repeat;
+  filter: blur(4px) brightness(0.6);
+  z-index: -1;
+  transform: scale(1.05);   
 }
 
 /*Контент поверх затемнения*/
